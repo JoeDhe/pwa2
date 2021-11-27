@@ -5,6 +5,7 @@ self.addEventListener('install', function(e) {
 var cacheName = 'v1';
 var appShellFiles = [
     './',
+    'https://script.google.com/macros/s/AKfycbyI2upLldJVAirdKywq5siMVJp2j55_gFJTv5cXTIKOcUu8hdCcYbBd2G5ciaHODzIRFA/exec',
     './index.html',    
     './apps.html',
     './about.html',
