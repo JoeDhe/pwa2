@@ -26,5 +26,5 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#82d273",
-  "theme_color": "#82d273"
+  "theme_color": "white"
 }
