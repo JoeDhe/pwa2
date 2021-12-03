@@ -38,7 +38,6 @@
 
 
 //PWA install button: https://javascript.plainenglish.io/creating-a-browser-agnostic-pwa-install-button-41039f312fbe
-        let installButton = document.getElementById('installBtn');
         let prompt;
 window.addEventListener('beforeinstallprompt', function(e){
   // Prevent the mini-infobar from appearing on mobile
@@ -47,6 +46,7 @@ window.addEventListener('beforeinstallprompt', function(e){
   prompt = e;
 });
 
+let installButton = document.getElementById('installBtn');
 installButton.addEventListener('click', function(){
    prompt.prompt();
 })
