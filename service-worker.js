@@ -7,8 +7,6 @@ var appShellFiles = [
     './',
     './index.html',    
     './apps.html',
-    './about.html',
-    './blog.html',
 ];
 
 self.addEventListener('install', function(e) {
