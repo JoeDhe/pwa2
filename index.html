@@ -34,9 +34,7 @@
     <script>
         if('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./service-worker.js');
-        };
-
-
+            
 //PWA install button: https://javascript.plainenglish.io/creating-a-browser-agnostic-pwa-install-button-41039f312fbe
         let prompt;
 window.addEventListener('beforeinstallprompt', function(e){
@@ -122,6 +120,9 @@ function isThisDeviceRunningiOS(){
     return false;
   }
 }
+        };
+
+
     </script>
 </body>
 </html>
