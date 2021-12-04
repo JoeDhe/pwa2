@@ -33,8 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         if('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js');
-            
+            navigator.serviceWorker.register('./service-worker.js');            
         };
         
             // Initialize deferredPrompt for use later to show browser install prompt.
@@ -64,41 +63,41 @@
               // We've used the prompt, and can't use it again, throw it away
               deferredPrompt = null;
             });        
-        
-  window.addEventListener('appinstalled', () => {
-  // Hide the app-provided install promotion
-  hideInstallPromotion();
-  // Clear the deferredPrompt so it can be garbage collected
-  deferredPrompt = null;
-  // Optionally, send analytics event to indicate successful install
-  console.log('PWA was installed');
-  buttonInstall.style.display = 'none';  
-});
-        
-     function getPWADisplayMode() {
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-  if (document.referrer.startsWith('android-app://')) {
-    return 'twa';
-  } else if (navigator.standalone || isStandalone) {
-    return 'standalone';
-  }
-  return 'browser';
-}   
-        
- window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
-  let displayMode = 'browser';
-  if (evt.matches) {
-    displayMode = 'standalone';
-  }
-  // Log display mode change to analytics
-  console.log('DISPLAY_MODE_CHANGED', displayMode);
-});      
-        
-  @media all and (display-mode: standalone) {
-  body {
-    background-color: yellow;
-  }
-}      
+
+          window.addEventListener('appinstalled', () => {
+          // Hide the app-provided install promotion
+          hideInstallPromotion();
+          // Clear the deferredPrompt so it can be garbage collected
+          deferredPrompt = null;
+          // Optionally, send analytics event to indicate successful install
+          console.log('PWA was installed');
+          buttonInstall.style.display = 'none';  
+        });
+
+             function getPWADisplayMode() {
+          const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+          if (document.referrer.startsWith('android-app://')) {
+            return 'twa';
+          } else if (navigator.standalone || isStandalone) {
+            return 'standalone';
+          }
+          return 'browser';
+        }   
+
+         window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+          let displayMode = 'browser';
+          if (evt.matches) {
+            displayMode = 'standalone';
+          }
+          // Log display mode change to analytics
+          console.log('DISPLAY_MODE_CHANGED', displayMode);
+        });      
+
+          @media all and (display-mode: standalone) {
+          body {
+            background-color: yellow;
+          }
+        }      
         
     </script>
 </body>
