@@ -159,30 +159,77 @@
               console.log('PWA was installed');
             }); 
 
-            function getPWADisplayMode() {
-              const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-              if (document.referrer.startsWith('android-app://')) {
-                return 'twa';
-              } else if (navigator.standalone || isStandalone) {
-                return 'standalone';
-              }
-              return 'browser';
-            }
+                 let installed = false;
+                buttonInstall.addEventListener('click', async function(){
+                  prompt.prompt();
+                  let result = await that.prompt.userChoice;
+                  if (result&&result.outcome === 'accepted') {
+                     installed = true;
+                  }
+                })
 
-            window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
-              let displayMode = 'browser';
-              if (evt.matches) {
-                displayMode = 'standalone';
-              }
-              // Log display mode change to analytics
-              console.log('DISPLAY_MODE_CHANGED', displayMode);
-            }); 
+                window.addEventListener('appinstalled', async function(e) {
+                   buttonInstall.style.display = "none";
+                });
 
-            @media all and (display-mode: standalone) {
-              body {
-                background-color: yellow;
-              }
-            }
+                let installable = true;
+                if (!('serviceWorker' in navigator)){
+                  installable = false;
+                }
+
+                let installed = false;
+
+                //check when the page is loaded if it matches one of the PWA display modes
+                window.addEventListener('DOMContentLoaded', function(){
+                   if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
+                     installed = true;
+                    }
+                });
+
+                //but also add a listener. After app installation on desktop, the app will open in their own window right away.
+                window.addEventListener('DOMContentLoaded', function(){
+                   window.matchMedia('(display-mode: standalone)').addListener(function(e){
+                     if (e.matches) { installed = true;}
+                   });
+                   window.matchMedia('(display-mode: fullscreen)').addListener(function(e){
+                     if (e.matches) { installed = true;}
+                   });
+                   window.matchMedia('(display-mode: minimal-ui)').addListener(function(e){
+                     if (e.matches) { installed = true; }
+                   });
+                 });
+
+                 window.addEventListener('appinstalled', function(){
+                  document.cookie = "appinstalled=true;expires=Tue, 30 Mar 2023 23:59:59 GMT;path=/";
+                })
+
+                window.addEventListener('beforeinstallprompt', function(){
+                  document.cookie = "appinstalled=false;expires=Tue, 30 Mar 2023 23:59:59 GMT;path=/";
+                })
+
+                if ('getInstalledRelatedApps' in window.navigator) {
+                   let relatedApps = await window.navigator.getInstalledRelatedApps();
+                   if (relatedApps.length > 0){
+                      installed = true;
+                   }
+                   else {
+                     installed = false;
+                   }
+                }
+
+                //a somewhat verbose approach to iOS detection
+                function isThisDeviceRunningiOS(){
+                  if (['iPad Simulator', 'iPhone Simulator','iPod Simulator', 'iPad','iPhone','iPod'].includes(navigator.platform))
+                   return true;
+                  }
+                  // iPad on iOS 13  
+                  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document)){
+                    return true;
+                  }   
+                  else {
+                    return false;
+                  }
+                }
     </script>
 </body>
 </html>
