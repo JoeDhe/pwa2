@@ -69,8 +69,6 @@ if (!('serviceWorker' in navigator)){
   installable = false;
 }
 
-let installed = false;
-
 //check when the page is loaded if it matches one of the PWA display modes
 window.addEventListener('DOMContentLoaded', function(){
    if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches) {
